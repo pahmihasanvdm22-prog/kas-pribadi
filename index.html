@@ -1,0 +1,413 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MY KAS - Keuangan Pribadi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo">M</div>
+        <div>
+          <h2>MY <span>KAS</span></h2>
+          <small>Personal Finance</small>
+        </div>
+      </div>
+
+      <p class="menu-label">MENU UTAMA</p>
+
+      <nav class="side-nav">
+        <button class="nav-link active" data-page="dashboard">
+          <span>▦</span> Dashboard
+        </button>
+        <button class="nav-link" data-page="transactions">
+          <span>⇄</span> Semua Transaksi
+        </button>
+        <button class="nav-link" data-page="income">
+          <span>↗</span> Pemasukan
+        </button>
+        <button class="nav-link" data-page="expense">
+          <span>↙</span> Pengeluaran
+        </button>
+        <button class="nav-link" data-page="statistics">
+          <span>▥</span> Statistik
+        </button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="sidebar-tip">
+          <div class="tip-icon">✦</div>
+          <strong>Keuangan lebih teratur</strong>
+          <p>Catat setiap uang masuk dan keluar agar keuanganmu mudah dipantau.</p>
+        </div>
+        <button class="nav-link" id="resetBtn">
+          <span>⟳</span> Reset Data
+        </button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu" id="mobileMenu">☰</button>
+          <div>
+            <p class="top-date" id="currentDate"></p>
+            <h2 id="pageHeading">Dashboard</h2>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <button class="icon-btn" id="themeBtn">☾</button>
+          <div class="user-info">
+            <div class="avatar">M</div>
+            <div>
+              <strong>Keuangan Saya</strong>
+              <small>Personal Account</small>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- DASHBOARD -->
+      <section class="page-section" id="page-dashboard">
+        <div class="welcome-row">
+          <div>
+            <h2>Selamat datang di MY KAS! 👋</h2>
+            <p>Kelola dan pantau kondisi keuangan pribadimu.</p>
+          </div>
+          <button class="primary-btn" id="quickAddBtn">＋ Tambah Transaksi</button>
+        </div>
+
+        <div class="summary-grid">
+          <div class="summary-card balance-card">
+            <div class="summary-top">
+              <span>Total Saldo</span>
+              <span class="summary-icon">◈</span>
+            </div>
+            <h2 id="balanceValue">Rp0</h2>
+            <p>Saldo keuangan saat ini</p>
+          </div>
+
+          <div class="summary-card">
+            <div class="summary-top">
+              <span>Total Pemasukan</span>
+              <span class="summary-icon green-icon">↗</span>
+            </div>
+            <h2 id="incomeValue">Rp0</h2>
+            <p class="positive-text">Total uang masuk</p>
+          </div>
+
+          <div class="summary-card">
+            <div class="summary-top">
+              <span>Total Pengeluaran</span>
+              <span class="summary-icon red-icon">↙</span>
+            </div>
+            <h2 id="expenseValue">Rp0</h2>
+            <p class="negative-text">Total uang keluar</p>
+          </div>
+        </div>
+
+        <div class="content-grid">
+          <div class="panel chart-panel">
+            <div class="panel-heading">
+              <div>
+                <h3>Ringkasan Keuangan</h3>
+                <p>Perbandingan pemasukan dan pengeluaran</p>
+              </div>
+              <span class="period-label">Keseluruhan</span>
+            </div>
+
+            <div class="chart-area">
+              <div class="chart-bars">
+                <div class="bar-group">
+                  <div class="bar income-bar" id="incomeBar"></div>
+                  <span>Pemasukan</span>
+                </div>
+                <div class="bar-group">
+                  <div class="bar expense-bar" id="expenseBar"></div>
+                  <span>Pengeluaran</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="chart-legend">
+              <span><i class="legend-dot income-dot"></i> Pemasukan</span>
+              <span><i class="legend-dot expense-dot"></i> Pengeluaran</span>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-heading">
+              <div>
+                <h3>Informasi Keuangan</h3>
+                <p>Ringkasan aktivitas keuanganmu</p>
+              </div>
+            </div>
+
+            <div class="quick-info">
+              <div class="quick-info-item">
+                <span class="quick-icon">▤</span>
+                <div>
+                  <strong id="transactionCount">0</strong>
+                  <small>Total transaksi</small>
+                </div>
+              </div>
+              <div class="quick-info-item">
+                <span class="quick-icon purple-icon">↗</span>
+                <div>
+                  <strong id="incomeCount">0</strong>
+                  <small>Transaksi pemasukan</small>
+                </div>
+              </div>
+              <div class="quick-info-item">
+                <span class="quick-icon orange-icon">↙</span>
+                <div>
+                  <strong id="expenseCount">0</strong>
+                  <small>Transaksi pengeluaran</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel table-panel">
+          <div class="panel-heading">
+            <div>
+              <h3>Transaksi Terbaru</h3>
+              <p>Riwayat aktivitas keuangan terakhir</p>
+            </div>
+            <button class="text-btn" data-goto="transactions">Lihat semua →</button>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Keterangan</th>
+                  <th>Kategori</th>
+                  <th>Tanggal</th>
+                  <th>Jenis</th>
+                  <th>Nominal</th>
+                </tr>
+              </thead>
+              <tbody id="recentTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- SEMUA TRANSAKSI -->
+      <section class="page-section hidden" id="page-transactions">
+        <div class="section-intro">
+          <div>
+            <h2>Semua Transaksi</h2>
+            <p>Daftar lengkap pemasukan dan pengeluaran.</p>
+          </div>
+          <button class="primary-btn" id="addTransactionBtn">＋ Tambah Transaksi</button>
+        </div>
+
+        <div class="panel">
+          <div class="filter-row">
+            <input type="search" id="searchTransaction" placeholder="Cari transaksi...">
+            <select id="filterType">
+              <option value="all">Semua jenis</option>
+              <option value="income">Pemasukan</option>
+              <option value="expense">Pengeluaran</option>
+            </select>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Keterangan</th>
+                  <th>Kategori</th>
+                  <th>Tanggal</th>
+                  <th>Jenis</th>
+                  <th>Nominal</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="transactionTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- PEMASUKAN -->
+      <section class="page-section hidden" id="page-income">
+        <div class="section-intro">
+          <div>
+            <h2>Data Pemasukan</h2>
+            <p>Catatan seluruh uang yang kamu terima.</p>
+          </div>
+          <button class="primary-btn" id="incomeAddBtn">＋ Tambah Pemasukan</button>
+        </div>
+        <div class="summary-card income-summary">
+          <span>Total Pemasukan</span>
+          <h2 id="incomePageValue">Rp0</h2>
+        </div>
+        <div class="panel table-panel">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Keterangan</th>
+                  <th>Kategori</th>
+                  <th>Tanggal</th>
+                  <th>Nominal</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="incomeTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- PENGELUARAN -->
+      <section class="page-section hidden" id="page-expense">
+        <div class="section-intro">
+          <div>
+            <h2>Data Pengeluaran</h2>
+            <p>Catatan seluruh uang yang telah kamu keluarkan.</p>
+          </div>
+          <button class="primary-btn" id="expenseAddBtn">＋ Tambah Pengeluaran</button>
+        </div>
+        <div class="summary-card expense-summary">
+          <span>Total Pengeluaran</span>
+          <h2 id="expensePageValue">Rp0</h2>
+        </div>
+        <div class="panel table-panel">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Keterangan</th>
+                  <th>Kategori</th>
+                  <th>Tanggal</th>
+                  <th>Nominal</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="expenseTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- STATISTIK -->
+      <section class="page-section hidden" id="page-statistics">
+        <div class="section-intro">
+          <div>
+            <h2>Statistik Keuangan</h2>
+            <p>Analisis seluruh aktivitas keuangan pribadimu.</p>
+          </div>
+          <button class="secondary-btn" id="exportBtn">↓ Export CSV</button>
+        </div>
+
+        <div class="summary-grid">
+          <div class="summary-card">
+            <span>Total Pemasukan</span>
+            <h2 id="statIncome">Rp0</h2>
+          </div>
+          <div class="summary-card">
+            <span>Total Pengeluaran</span>
+            <h2 id="statExpense">Rp0</h2>
+          </div>
+          <div class="summary-card">
+            <span>Saldo Akhir</span>
+            <h2 id="statBalance">Rp0</h2>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-heading">
+            <div>
+              <h3>Perbandingan Keuangan</h3>
+              <p>Persentase pemasukan dan pengeluaran</p>
+            </div>
+          </div>
+          <div class="large-chart">
+            <div class="large-chart-row">
+              <span>Pemasukan</span>
+              <div class="progress-track">
+                <div id="statIncomeBar" class="progress-fill income-fill"></div>
+              </div>
+              <strong id="statIncomePercent">0%</strong>
+            </div>
+            <div class="large-chart-row">
+              <span>Pengeluaran</span>
+              <div class="progress-track">
+                <div id="statExpenseBar" class="progress-fill expense-fill"></div>
+              </div>
+              <strong id="statExpensePercent">0%</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        © 2026 MY KAS. Personal Finance Management.
+      </footer>
+    </main>
+  </div>
+
+  <!-- FORM TRANSAKSI -->
+  <div class="modal-overlay hidden" id="transactionModal">
+    <div class="modal">
+      <div class="modal-heading">
+        <div>
+          <h3>Tambah Transaksi</h3>
+          <p>Masukkan informasi transaksi keuangan.</p>
+        </div>
+        <button class="close-btn" data-close="transactionModal">×</button>
+      </div>
+
+      <form id="transactionForm">
+        <label>Keterangan</label>
+        <input type="text" id="description" placeholder="Contoh: Gaji bulanan" required>
+
+        <label>Jenis Transaksi</label>
+        <select id="type" required>
+          <option value="income">Pemasukan</option>
+          <option value="expense">Pengeluaran</option>
+        </select>
+
+        <label>Kategori</label>
+        <select id="category" required>
+          <option value="Gaji">Gaji</option>
+          <option value="Uang Saku">Uang Saku</option>
+          <option value="Bonus">Bonus</option>
+          <option value="Usaha">Usaha</option>
+          <option value="Makanan">Makanan</option>
+          <option value="Transportasi">Transportasi</option>
+          <option value="Belanja">Belanja</option>
+          <option value="Tagihan">Tagihan</option>
+          <option value="Pendidikan">Pendidikan</option>
+          <option value="Kesehatan">Kesehatan</option>
+          <option value="Hiburan">Hiburan</option>
+          <option value="Lainnya">Lainnya</option>
+        </select>
+
+        <label>Nominal (Rupiah)</label>
+        <input type="number" id="amount" min="1" placeholder="Contoh: 50000" required>
+
+        <label>Tanggal</label>
+        <input type="date" id="date" required>
+
+        <button type="submit" class="primary-btn full-btn">Simpan Transaksi</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
